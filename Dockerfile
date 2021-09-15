@@ -24,7 +24,7 @@ ENV I2CP_PORT=${I2CP_PORT}
 RUN addgroup -g ${HOST_GID} i2psnark \
     && adduser -h /snark -G i2psnark -u ${HOST_UID} -D i2psnark
 
-RUN apk --no-cache add git gettext apache-ant openjdk11 \
+RUN apk --no-cache add git gettext apache-ant openjdk8 \
     && git clone https://github.com/i2p/i2p.i2p.git /src \
     && cd /src \
     && if [ -n "${GIT_TAG}" ]; then git checkout tags/${GIT_TAG}; fi \
@@ -38,8 +38,8 @@ RUN apk --no-cache add git gettext apache-ant openjdk11 \
     && chown -R i2psnark:i2psnark /snark \
     && cd /snark/i2psnark && ln -s ../config i2psnark.config.d \
     && rm -rf /src \
-    && apk --purge del git gettext apache-ant openjdk11 \
-    && apk --no-cache add openjdk11-jre-headless su-exec shadow
+    && apk --purge del git gettext apache-ant openjdk8 \
+    && apk --no-cache add openjdk8-jre-base su-exec shadow
 
 VOLUME /snark/config
 VOLUME /snark/downloads
