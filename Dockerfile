@@ -32,9 +32,9 @@ RUN apk --no-cache add git gettext apache-ant openjdk8 \
     && mkdir -p /snark/config \
     && unzip -d /snark /src/apps/i2psnark/java/i2psnark-standalone.zip \
     && sed -i 's/<Set name="host">127.0.0.1<\/Set>/<Set name="host">0.0.0.0<\/Set>/' /snark/i2psnark/jetty-i2psnark.xml \
-    && echo "i2psnark.dir=/snark/downloads" > /snark/config/i2psnark.config \
-    && echo "i2psnark.i2cpHost=${I2CP_HOST}" >> /snark/config/i2psnark.config \
-    && echo "i2psnark.i2cpPort=${I2CP_PORT}" >> /snark/config/i2psnark.config \
+    && echo "i2psnark.dir=/snark/downloads" > /snark/i2psnark.config.default \
+    && echo "i2psnark.i2cpHost=${I2CP_HOST}" >> /snark/i2psnark.config.default \
+    && echo "i2psnark.i2cpPort=${I2CP_PORT}" >> /snark/i2psnark.config.default \
     && chown -R i2psnark:i2psnark /snark \
     && cd /snark/i2psnark && ln -s ../config i2psnark.config.d \
     && rm -rf /src \

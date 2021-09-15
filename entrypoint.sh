@@ -23,6 +23,10 @@ if [[ "$I2CP_PORT" == "" ]]; then
   exit 2
 fi
 
+if [[ ! -f "/snark/config/i2psnark.config" ]]; then
+  cp -f /snark/i2psnark.config.default /snark/config/i2psnark.config
+fi
+
 # Ensure user rights
 chown i2psnark:$HOST_GID /snark
 chown -R i2psnark:$HOST_GID /snark/config
