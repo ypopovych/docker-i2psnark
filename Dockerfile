@@ -7,7 +7,7 @@ ENV GIT_TAG=${GIT_TAG}
 
 # GID on the HOST from which i2psnark will work
 ARG HOST_GID=1000
-ENV HOST_GID=${HOST_GID}}
+ENV HOST_GID=${HOST_GID}
 
 # UID on the HOST from which i2psnark will work
 ARG HOST_UID=1000
@@ -15,11 +15,11 @@ ENV HOST_UID=${HOST_UID}
 
 # I2CP hostname
 ARG I2CP_HOST=""
-ENV I2CP_HOST=${I2CP_HOST}}
+ENV I2CP_HOST=${I2CP_HOST}
 
 # I2CP port
 ARG I2CP_PORT=7654
-ENV I2CP_PORT=${I2CP_PORT}}
+ENV I2CP_PORT=${I2CP_PORT}
 
 RUN addgroup -g ${HOST_GID} i2psnark \
     && adduser -h /snark -G i2psnark -u ${HOST_UID} -D i2psnark
