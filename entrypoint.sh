@@ -33,6 +33,7 @@ chown -R i2psnark:$HOST_GID /snark/config
 chown -R i2psnark:$HOST_GID /snark/i2psnark
 chown i2psnark:$HOST_GID /snark/downloads
 
+sed -i "s/^i2psnark.allowedHosts=.*$/i2psnark.allowedHosts=${HOSTNAMES}/g" /snark/i2psnark/i2psnark-appctx.config
 sed -i "s/^i2psnark.i2cpHost=.*$/i2psnark.i2cpHost=${I2CP_HOST}/g" /snark/config/i2psnark.config
 sed -i "s/^i2psnark.i2cpPort=.*$/i2psnark.i2cpPort=${I2CP_PORT}/g" /snark/config/i2psnark.config
 

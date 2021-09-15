@@ -5,6 +5,10 @@ LABEL maintainer "Yehor Popovych <popovych.yegor@gmail.com>"
 ARG GIT_TAG=""
 ENV GIT_TAG=${GIT_TAG}
 
+# allowed hostnames for web ui
+ARG HOSTNAMES=""
+ENV HOSTNAMES=${HOSTNAMES}
+
 # GID on the HOST from which i2psnark will work
 ARG HOST_GID=1000
 ENV HOST_GID=${HOST_GID}
@@ -35,6 +39,7 @@ RUN apk --no-cache add git gettext apache-ant openjdk8 \
     && echo "i2psnark.dir=/snark/downloads" > /snark/i2psnark.config.default \
     && echo "i2psnark.i2cpHost=${I2CP_HOST}" >> /snark/i2psnark.config.default \
     && echo "i2psnark.i2cpPort=${I2CP_PORT}" >> /snark/i2psnark.config.default \
+    && echo "i2psnark.allowedHosts=${HOSTNAMES}" >> /snark/i2psnark/i2psnark-appctx.config \
     && chown -R i2psnark:i2psnark /snark \
     && cd /snark/i2psnark && ln -s ../config i2psnark.config.d \
     && rm -rf /src \
