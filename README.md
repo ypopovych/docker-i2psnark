@@ -6,10 +6,10 @@ I2P Snark standalone Docker image
 You can start the container like this:
 
 ```bash
-docker volume create i2psnark_config
+docker volume create i2psnark_state
 docker run --restart=unless-stopped -d --name=i2psnark \
     -v /my/torrents/path:/snark/downloads \
-    -v i2psnark_config:/snark/config \
+    -v i2psnark_state:/snark/config \
     -e I2CP_HOST="172.17.0.1" \
     ypopovych/i2psnark
 ```
@@ -33,3 +33,47 @@ You can configure the container using the following environment variables:
 ## Supported Architectures
 
 The following Docker architectures are supported: `linux/arm64`, `linux/arm/v7` and `linux/amd64`
+
+## Docker Compose with PurpleI2P/i2pd
+
+```yml
+version: "3.9"
+services:
+  daemon:
+    image: purplei2p/i2pd:latest
+    volumes:
+      - daemon_state:/home/i2pd/data # where to save i2pd data
+    networks:
+      - internal
+    ports:
+      - "4444:4444" # http proxy
+      - "4447:4447" # socks proxy
+      - "7070:7070" # web ui
+      - "12345:12345" # port for incoming connections. Should be set in i2pd.conf file
+      - "12345:12345/udp" # udp port for incoming connections. Should be set in i2pd.conf file
+    restart: "on-failure"
+  snark:
+    image: ypopovych/i2psnark:latest
+    depends_on:
+      - daemon
+    volumes:
+      - snark_state:/snark/config
+      - /path/to/host/downloads:/snark/downloads
+    networks:
+      - internal
+    ports:
+      - "8002:8002" # web ui
+    environment:
+      HOST_UID: 1000 # host user which will be used for downloaded torrent files
+      HOST_GID: 1000 # host group which will be used for downloaded torrent files
+      HOSTNAMES: "" # add your hostnames/IPs if you use it from network (not a localhost)
+      I2CP_HOST: daemon # name of "daemon" container
+    restart: "on-failure"
+
+networks:
+  internal:
+
+volumes:
+  snark_state:
+  daemon_state:
+```
