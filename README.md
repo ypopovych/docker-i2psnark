@@ -52,6 +52,10 @@ services:
       - "12345:12345" # port for incoming connections. Should be set in i2pd.conf file
       - "12345:12345/udp" # udp port for incoming connections. Should be set in i2pd.conf file
     restart: "on-failure"
+    ulimits:
+      nofile:
+        soft: 30000
+        hard: 40000
   snark:
     image: ypopovych/i2psnark:latest
     depends_on:
