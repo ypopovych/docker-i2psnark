@@ -1,10 +1,6 @@
 FROM alpine:latest
 LABEL maintainer "Yehor Popovych <popovych.yegor@gmail.com>"
 
-# GIT TAG FOR BUILD
-ARG GIT_TAG=""
-ENV GIT_TAG=${GIT_TAG}
-
 # allowed hostnames for web ui
 ARG HOSTNAMES=""
 ENV HOSTNAMES=${HOSTNAMES}
